@@ -40,9 +40,7 @@ public class SearchSpec {
                 browserstackOptions.put("os", System.getenv("OS"));
                 browserstackOptions.put("osVersion", System.getenv("OS_VERSION"));
             }
-            browserstackOptions.put("buildName", "test-gauge");
             caps.setCapability("bstack:options", browserstackOptions);
-            System.out.println("Inside Setup");
 
             java.net.URL remoteURL = new URL(URL);
             driver = new RemoteWebDriver(remoteURL, caps);
