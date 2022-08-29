@@ -17,7 +17,8 @@
 * Update `browserstack.yml` with your [BrowserStack Username and Access Key](https://www.browserstack.com/accounts/settings)
 
 ## Running the tests
-* To run the test suite, run `mvn test`
+* To run sample specs, run `mvn test -P sample-specs`
+* To run sample local specs, run `mvn test -P sample-local-specs`
 
 ## Notes
 * You can view your test results on the [BrowserStack Automate dashboard](https://www.browserstack.com/automate)
