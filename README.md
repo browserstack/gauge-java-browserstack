@@ -15,6 +15,7 @@
 * Clone the repo
 * Install dependencies `mvn compile`
 * Update `browserstack.yml` with your [BrowserStack Username and Access Key](https://www.browserstack.com/accounts/settings)
+* Modify the **browserstack-java-sdk** jar path `gauge_jvm_args = -javaagent:/absolute_path_to_browserstack_java_sdk_jar` in `env/default/java.properties` jar located at the root of project directory.
 
 ## Running the tests
 * To run sample specs, run `mvn test -P sample-specs`
