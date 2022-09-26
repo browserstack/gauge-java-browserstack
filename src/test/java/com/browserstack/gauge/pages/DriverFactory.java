@@ -41,8 +41,9 @@ public class DriverFactory {
             }
 
             // Hardcoded capabilities
-            caps.setCapability("build", "FirstGaugeBuild");
+            caps.setCapability("build", "browserstack-build-1");
             caps.setCapability("browserstack.debug", "true");
+            caps.setCapability("browserstack.source", "gauge-java:sample-master-v1.0");
 
             URL remoteURL = new URL(URL);
 
