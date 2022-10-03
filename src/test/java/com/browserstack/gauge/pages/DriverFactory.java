@@ -43,7 +43,7 @@ public class DriverFactory {
             // Hardcoded capabilities
             caps.setCapability("build", "browserstack-build-1");
             caps.setCapability("browserstack.debug", "true");
-            caps.setCapability("browserstack.source", "gauge-java:sample-master-v1.0");
+            caps.setCapability("browserstack.source", "gauge-java:sample-master:v1.0");
             caps.setCapability("name", "BStack gauge-java");
 
             URL remoteURL = new URL(URL);
