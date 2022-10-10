@@ -1,4 +1,4 @@
-# gauge-browserstack
+# gauge-java-browserstack
 
 [Gauge](https://docs.gauge.org/) Integration with BrowserStack
 
