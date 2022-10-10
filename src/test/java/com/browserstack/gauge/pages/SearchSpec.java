@@ -3,8 +3,10 @@ package com.browserstack.gauge.pages;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.browserstack.local.Local;
 import com.thoughtworks.gauge.AfterSpec;
 import com.thoughtworks.gauge.BeforeSpec;
+import com.thoughtworks.gauge.BeforeSuite;
 import com.thoughtworks.gauge.Step;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;
@@ -13,19 +15,29 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Map;
 
 public class SearchSpec {
     HomePage homePage;
     private static final String USERNAME = System.getenv("BROWSERSTACK_USERNAME");
     private static final String AUTOMATE_KEY = System.getenv("BROWSERSTACK_ACCESS_KEY");
-    private static final String URL = "https://" + USERNAME + ":" + AUTOMATE_KEY + "@hub-cloud.browserstack.com/wd/hub";
+    private static final String URL = "https://" + USERNAME + ":" + AUTOMATE_KEY + "@hub.browserstack.com/wd/hub";
     private WebDriver driver;
+    private Local local;
 
     @BeforeSpec
-    public void setUp() {
+    public void setUp() throws Exception {
         try {
             MutableCapabilities caps = new MutableCapabilities();
             HashMap<String, Object> browserstackOptions = new HashMap<String, Object>();
+
+            if (!(System.getenv("LOCAL").isEmpty()) && System.getenv("LOCAL").equalsIgnoreCase("true")) {
+                local = new Local();
+                browserstackOptions.put("local", "true");
+                Map<String, String> options = new HashMap<String, String>();
+                options.put("key", AUTOMATE_KEY);
+                local.start(options);
+            }
 
             // Capabilities from environment
             if(System.getenv("DEVICE") !=  null){
@@ -40,6 +52,8 @@ public class SearchSpec {
                 browserstackOptions.put("os", System.getenv("OS"));
                 browserstackOptions.put("osVersion", System.getenv("OS_VERSION"));
             }
+            browserstackOptions.put("buildName", "browserstack-build-1");
+            browserstackOptions.put("sessionName", "BStack Sample Gauge");
             caps.setCapability("bstack:options", browserstackOptions);
 
             java.net.URL remoteURL = new URL(URL);
@@ -72,11 +86,14 @@ public class SearchSpec {
 
     @Step("the page should contain <expectedTitle>")
     public void page_should_contain(String expectedTitle) {
-        assertTrue(driver.getTitle().equalsIgnoreCase(expectedTitle));
+        assertTrue(driver.getPageSource().contains(expectedTitle));
     }
 
     @AfterSpec
-    public void tearDown() {
+    public void tearDown() throws Exception {
         driver.quit();
+        if (local != null) {
+            local.stop();
+        }
     }
 }

@@ -4,7 +4,7 @@ Verify Local Test
 The following scenario open local website on port 45691 website and makes sure that
 the title matches.
 
-Check BStackDemo Website Title
+Navigate to Local check page
 -------------------
 tags: search, smoke
 

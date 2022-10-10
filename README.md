@@ -1,6 +1,6 @@
 # gauge-browserstack
 
-[Gauge](http://getgauge.io) Integration with BrowserStack
+[Gauge](https://docs.gauge.org/) Integration with BrowserStack
 
 ![BrowserStack Logo](https://d98b8t1nnulk5.cloudfront.net/production/images/layout/logo-header.png?1469004780)
 
@@ -14,12 +14,11 @@
 
 * Clone the repo
 * Install dependencies `mvn compile`
-* Update `browserstack.yml` with your [BrowserStack Username and Access Key](https://www.browserstack.com/accounts/settings)
-* Modify the **browserstack-java-sdk** jar path for key `gauge_jvm_args` in `env/default/java.properties` jar located at the root of project directory.
+* Update `env/default/default.properties` with your [BrowserStack Username and Access Key](https://www.browserstack.com/accounts/settings)
 
 ## Running the tests
-* To run sample specs, run `mvn test -P sample-specs`
-* To run sample local specs, run `mvn test -P sample-local-specs`
+* To run the sample specs, run `mvn test -P sample-specs`
+* To run the sample local specs, run `mvn test -P sample-local-specs`
 
 ## Notes
 * You can view your test results on the [BrowserStack Automate dashboard](https://www.browserstack.com/automate)

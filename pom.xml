@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.browserstack</groupId>
-    <artifactId>gauge-browserstack</artifactId>
+    <artifactId>gauge-java-browserstack</artifactId>
     <version>1.0-SNAPSHOT</version>
     <build>
         <testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
@@ -31,6 +31,11 @@
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>4.1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.browserstack</groupId>
+            <artifactId>browserstack-local-java</artifactId>
+            <version>1.0.6</version>
         </dependency>
         <dependency>
             <groupId>com.thoughtworks.gauge</groupId>
