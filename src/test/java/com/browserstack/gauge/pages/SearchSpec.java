@@ -4,10 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import com.browserstack.local.Local;
-import com.thoughtworks.gauge.AfterSpec;
-import com.thoughtworks.gauge.BeforeSpec;
-import com.thoughtworks.gauge.BeforeSuite;
-import com.thoughtworks.gauge.Step;
+import com.thoughtworks.gauge.*;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -24,7 +21,15 @@ public class SearchSpec {
     private static final String URL = "https://" + USERNAME + ":" + AUTOMATE_KEY + "@hub.browserstack.com/wd/hub";
     private WebDriver driver;
     private Local local;
-
+    @BeforeSuite
+    public void beforeSuite() throws Exception {
+        if (!(System.getenv("LOCAL").isEmpty()) && System.getenv("LOCAL").equalsIgnoreCase("true")) {
+            local = new Local();
+            Map<String, String> options = new HashMap<String, String>();
+            options.put("key", AUTOMATE_KEY);
+            local.start(options);
+        }
+    }
     @BeforeSpec
     public void setUp() throws Exception {
         try {
@@ -32,11 +37,13 @@ public class SearchSpec {
             HashMap<String, Object> browserstackOptions = new HashMap<String, Object>();
 
             if (!(System.getenv("LOCAL").isEmpty()) && System.getenv("LOCAL").equalsIgnoreCase("true")) {
-                local = new Local();
+                if(local == null || !local.isRunning()){
+                    local = new Local();
+                    Map<String, String> options = new HashMap<String, String>();
+                    options.put("key", AUTOMATE_KEY);
+                    local.start(options);
+                }
                 browserstackOptions.put("local", "true");
-                Map<String, String> options = new HashMap<String, String>();
-                options.put("key", AUTOMATE_KEY);
-                local.start(options);
             }
 
             // Capabilities from environment
@@ -90,9 +97,12 @@ public class SearchSpec {
     }
 
     @AfterSpec
-    public void tearDown() throws Exception {
+    public void tearDown() {
         driver.quit();
-        if (local != null) {
+    }
+    @AfterSuite
+    public void afterSuite() throws Exception {
+        if(local!= null && local.isRunning()){
             local.stop();
         }
     }
