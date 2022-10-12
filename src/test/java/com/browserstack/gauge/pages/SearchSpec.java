@@ -42,16 +42,21 @@ public class SearchSpec {
             HashMap<String, Object> browserstackOptions = new HashMap<String, Object>();
 
             if (!(System.getenv("LOCAL").isEmpty()) && System.getenv("LOCAL").equalsIgnoreCase("true")) {
-                if (local != null && local.isRunning()) {
-                    browserstackOptions.put("local", "true");
+                if(local == null || !local.isRunning()){
+                    local = new Local();
+                    Map<String, String> options = new HashMap<String, String>();
+                    options.put("key", AUTOMATE_KEY);
+                    local.start(options);
                 }
+                browserstackOptions.put("local", "true");
             }
 
             // Capabilities from environment
             if(System.getenv("DEVICE") !=  null){
                 caps.setCapability("browserName", System.getenv("BROWSERNAME"));
-                caps.setCapability("os", System.getenv("PLATFORM"));
-                caps.setCapability("deviceName", System.getenv("DEVICE"));
+                caps.setCapability("platformName", System.getenv("PLATFORM"));
+
+                browserstackOptions.put("deviceName", System.getenv("DEVICE"));
             }
             else {
                 caps.setCapability("browserName", System.getenv("BROWSERNAME"));
