@@ -20,14 +20,19 @@ public class SearchSpec {
     private static final String AUTOMATE_KEY = System.getenv("BROWSERSTACK_ACCESS_KEY");
     private static final String URL = "https://" + USERNAME + ":" + AUTOMATE_KEY + "@hub.browserstack.com/wd/hub";
     private WebDriver driver;
-    private Local local;
+    private static Local local;
+
     @BeforeSuite
     public void beforeSuite() throws Exception {
-        if (!(System.getenv("LOCAL").isEmpty()) && System.getenv("LOCAL").equalsIgnoreCase("true")) {
-            local = new Local();
-            Map<String, String> options = new HashMap<String, String>();
-            options.put("key", AUTOMATE_KEY);
-            local.start(options);
+        try {
+            if (!(System.getenv("LOCAL").isEmpty()) && System.getenv("LOCAL").equalsIgnoreCase("true")) {
+                local = new Local();
+                Map<String, String> options = new HashMap<String, String>();
+                options.put("key", AUTOMATE_KEY);
+                local.start(options);
+            }
+        } catch (Exception e) {
+            System.out.println("Error while start local - " + e);
         }
     }
     @BeforeSpec
@@ -37,19 +42,15 @@ public class SearchSpec {
             HashMap<String, Object> browserstackOptions = new HashMap<String, Object>();
 
             if (!(System.getenv("LOCAL").isEmpty()) && System.getenv("LOCAL").equalsIgnoreCase("true")) {
-                if(local == null || !local.isRunning()){
-                    local = new Local();
-                    Map<String, String> options = new HashMap<String, String>();
-                    options.put("key", AUTOMATE_KEY);
-                    local.start(options);
+                if (local != null && local.isRunning()) {
+                    browserstackOptions.put("local", "true");
                 }
-                browserstackOptions.put("local", "true");
             }
 
             // Capabilities from environment
             if(System.getenv("DEVICE") !=  null){
                 caps.setCapability("browserName", System.getenv("BROWSERNAME"));
-                caps.setCapability("platform", System.getenv("PLATFORM"));
+                caps.setCapability("os", System.getenv("PLATFORM"));
                 caps.setCapability("deviceName", System.getenv("DEVICE"));
             }
             else {
@@ -61,6 +62,7 @@ public class SearchSpec {
             }
             browserstackOptions.put("buildName", "browserstack-build-1");
             browserstackOptions.put("sessionName", "BStack Sample Gauge");
+            browserstackOptions.put("source", "gauge:sample-master:v1.0");
             caps.setCapability("bstack:options", browserstackOptions);
 
             java.net.URL remoteURL = new URL(URL);

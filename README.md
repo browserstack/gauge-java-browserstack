@@ -17,8 +17,8 @@
 * Update `env/default/default.properties` with your [BrowserStack Username and Access Key](https://www.browserstack.com/accounts/settings)
 
 ## Running the tests
-* To run the sample specs, run `mvn test -P sample-specs`
-* To run the sample local specs, run `mvn test -P sample-local-specs`
+* To run the sample specs, run `mvn test -P sample-test`
+* To run the sample local specs, run `mvn test -P sample-local-test`
 
 ## Notes
 * You can view your test results on the [BrowserStack Automate dashboard](https://www.browserstack.com/automate)

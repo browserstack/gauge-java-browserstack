@@ -51,7 +51,10 @@
     </dependencies>
     <profiles>
         <profile>
-            <id>sample-specs</id>
+            <id>sample-test</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <build>
                 <pluginManagement>
                     <plugins>
@@ -91,7 +94,7 @@
             </build>
         </profile>
         <profile>
-            <id>sample-local-specs</id>
+            <id>sample-local-test</id>
             <build>
                 <pluginManagement>
                     <plugins>
