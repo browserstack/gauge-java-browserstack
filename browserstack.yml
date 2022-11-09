@@ -19,6 +19,7 @@ accessKey: YOUR_ACCESS_KEY
 buildName: browserstack-build-1
 # Use `projectName` to set the name of your project. Example, Marketing Website
 projectName: BrowserStack Samples
+framework: gauge
 
 # ==========================================
 # BrowserStack Local

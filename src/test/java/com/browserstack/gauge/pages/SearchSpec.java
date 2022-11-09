@@ -70,7 +70,7 @@ public class SearchSpec {
         assertEquals(homePage.getSelectedProductName(), homePage.getProductCartText(driver));
     }
 
-    @Step("the page should contain <expectedTitle>")
+    @Step("the page title should be <expectedTitle>")
     public void page_should_contain(String expectedTitle) {
         assertTrue(driver.getTitle().equalsIgnoreCase(expectedTitle));
     }
