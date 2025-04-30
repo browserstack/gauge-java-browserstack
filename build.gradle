@@ -1,0 +1,69 @@
+//buildscript {
+//    repositories {
+//        mavenLocal()
+//        mavenCentral()
+//    }
+//    dependencies {
+//        classpath files('/Users/pranayv/work/sdk/browserstack-javaagent/BrowserstackGradlePlugin/local-plugin-repository/com/browserstack/gradle-sdk/1.1.1/gradle-sdk-1.1.1.jar')
+//    }
+//}
+
+plugins {
+    id 'java'
+    id 'org.gauge' version '1.8.2'
+//    id "com.browserstack.gradle-sdk" version "1.1.1"
+
+}
+
+group 'Gradle_example'
+version '1.0-SNAPSHOT'
+
+// Update Java compatibility to Java 11
+sourceCompatibility = 11
+targetCompatibility = 11
+
+repositories {
+    mavenCentral()
+}
+
+// Updated Guava conflict resolution
+configurations.all {
+    resolutionStrategy {
+        // Force specific version of main Guava library
+        force 'com.google.guava:guava:30.1.1-jre'
+
+        // Don't try to force the same version on all Guava group artifacts
+        eachDependency { details ->
+            if (details.requested.group == 'com.google.guava') {
+                if (details.requested.name == 'guava') {
+                    details.useVersion '30.1.1-jre'
+                    details.because 'Compatibility with Java 11 and all dependencies'
+                }
+                // Don't override versions for other Guava modules
+            }
+        }
+    }
+}
+
+dependencies {
+    // Main Guava library with explicit capability
+    implementation('com.google.guava:guava:30.1.1-jre') {
+        capabilities {
+            requireCapability('com.google.guava:guava')
+        }
+    }
+
+    // Explicitly include correct versions of Guava's dependencies
+    // implementation 'com.google.guava:failureaccess:1.0.1'
+    // implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict'
+
+    implementation 'com.thoughtworks.gauge:gauge-java:0.11.3'
+    testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.20.2'
+
+    testImplementation 'junit:junit:4.13.2'
+    implementation 'com.browserstack:browserstack-local-java:1.0.6'
+    implementation files('/Users/pranayv/work/sdk/browserstack-javaagent/target/browserstack-java-sdk-1.30.10.jar')
+
+    implementation 'org.seleniumhq.selenium:selenium-java:4.0.0'
+    // implementation 'io.github.bonigarcia:webdrivermanager:5.6.2'
+}
