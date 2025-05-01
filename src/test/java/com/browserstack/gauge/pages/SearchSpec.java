@@ -39,36 +39,38 @@ public class SearchSpec {
     public void setUp() throws Exception {
         try {
             MutableCapabilities caps = new MutableCapabilities();
-            HashMap<String, Object> browserstackOptions = new HashMap<String, Object>();
+            //HashMap<String, Object> browserstackOptions = new HashMap<String, Object>();
 
-            if (!(System.getenv("LOCAL").isEmpty()) && System.getenv("LOCAL").equalsIgnoreCase("true")) {
-                if(local == null || !local.isRunning()){
-                    local = new Local();
-                    Map<String, String> options = new HashMap<String, String>();
-                    options.put("key", AUTOMATE_KEY);
-                    local.start(options);
-                }
-                browserstackOptions.put("local", "true");
-            }
+            // if (!(System.getenv("LOCAL").isEmpty()) && System.getenv("LOCAL").equalsIgnoreCase("true")) {
+            //     if(local == null || !local.isRunning()){
+            //         local = new Local();
+            //         Map<String, String> options = new HashMap<String, String>();
+            //         options.put("key", AUTOMATE_KEY);
+            //         local.start(options);
+            //     }
+            //     browserstackOptions.put("local", "true");
+            // }
 
-            // Capabilities from environment
-            if(System.getenv("DEVICE") !=  null){
-                caps.setCapability("browserName", System.getenv("BROWSERNAME"));
-                caps.setCapability("platformName", System.getenv("PLATFORM"));
+            // // Capabilities from environment
+            // if(System.getenv("DEVICE") !=  null){
+            //     caps.setCapability("browserName", System.getenv("BROWSERNAME"));
+            //     caps.setCapability("platformName", System.getenv("PLATFORM"));
 
-                browserstackOptions.put("deviceName", System.getenv("DEVICE"));
-            }
-            else {
-                caps.setCapability("browserName", System.getenv("BROWSERNAME"));
-                caps.setCapability("browserVersion", System.getenv("BROWSER_VERSION"));
+            //     browserstackOptions.put("deviceName", System.getenv("DEVICE"));
+            // }
+            // else {
+            //     caps.setCapability("browserName", System.getenv("BROWSERNAME"));
+            //     caps.setCapability("browserVersion", System.getenv("BROWSER_VERSION"));
 
-                browserstackOptions.put("os", System.getenv("OS"));
-                browserstackOptions.put("osVersion", System.getenv("OS_VERSION"));
-            }
-            browserstackOptions.put("buildName", "browserstack-build-1");
-            browserstackOptions.put("sessionName", "BStack Sample Gauge");
-            browserstackOptions.put("source", "gauge:sample-master:v1.0");
-            caps.setCapability("bstack:options", browserstackOptions);
+            //     browserstackOptions.put("os", System.getenv("OS"));
+            //     browserstackOptions.put("osVersion", System.getenv("OS_VERSION"));
+            // }
+            // browserstackOptions.put("buildName", "browserstack-build-1");
+            // browserstackOptions.put("sessionName", "BStack Sample Gauge");
+            // browserstackOptions.put("source", "gauge:sample-master:v1.0");
+            // caps.setCapability("bstack:options", browserstackOptions);
+
+            System.out.println("Username:" + USERNAME);
 
             java.net.URL remoteURL = new URL(URL);
             driver = new RemoteWebDriver(remoteURL, caps);

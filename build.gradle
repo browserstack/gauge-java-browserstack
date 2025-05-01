@@ -1,22 +1,20 @@
-//buildscript {
-//    repositories {
-//        mavenLocal()
-//        mavenCentral()
-//    }
-//    dependencies {
-//        classpath files('/Users/pranayv/work/sdk/browserstack-javaagent/BrowserstackGradlePlugin/local-plugin-repository/com/browserstack/gradle-sdk/1.1.1/gradle-sdk-1.1.1.jar')
-//    }
-//}
+buildscript {
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
 
 plugins {
     id 'java'
-    id 'org.gauge' version '1.8.2'
-//    id "com.browserstack.gradle-sdk" version "1.1.1"
-
+    id 'org.gauge' version '2.1.0'
 }
 
 group 'Gradle_example'
 version '1.0-SNAPSHOT'
+
+// Define the browserstack Java agent JAR path as a variable
+def browserstackJavaAgentPath = '/Users/kunalshah/Projects/ai_initiative/browserstack-javaagent/target/browserstack-java-sdk-1.31.1.jar'
 
 // Update Java compatibility to Java 11
 sourceCompatibility = 11
@@ -24,6 +22,7 @@ targetCompatibility = 11
 
 repositories {
     mavenCentral()
+    gradlePluginPortal() // Add this to ensure plugins are found
 }
 
 // Updated Guava conflict resolution
@@ -45,6 +44,7 @@ configurations.all {
     }
 }
 
+
 dependencies {
     // Main Guava library with explicit capability
     implementation('com.google.guava:guava:30.1.1-jre') {
@@ -62,8 +62,22 @@ dependencies {
 
     testImplementation 'junit:junit:4.13.2'
     implementation 'com.browserstack:browserstack-local-java:1.0.6'
-    implementation files('/Users/pranayv/work/sdk/browserstack-javaagent/target/browserstack-java-sdk-1.30.10.jar')
+
+    //implementation 'com.browserstack:browserstack-java-sdk:1.31.1'
+    implementation files(browserstackJavaAgentPath) 
 
     implementation 'org.seleniumhq.selenium:selenium-java:4.0.0'
     // implementation 'io.github.bonigarcia:webdrivermanager:5.6.2'
+}
+
+
+// Configure the Gauge task
+gauge {
+    //Existing configurations like specsDir, flags, env, etc.
+    specsDir = 'specs/sample-specs' // Example
+    inParallel = false
+
+    environmentVariables = [
+        'gauge_jvm_args': "-javaagent:${browserstackJavaAgentPath}",
+    ]
 }

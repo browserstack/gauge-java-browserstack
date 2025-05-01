@@ -1,25 +1,16 @@
 pluginManagement {
     repositories {
-//        maven {
-//            name = 'localPluginRepository'
-//            url = '/Users/pranayv/work/sdk/browserstack-javaagent/BrowserstackGradlePlugin/local-plugin-repository'
-//        }
-        mavenCentral()
-        mavenLocal()
         gradlePluginPortal()
+        mavenCentral()
         google()
     }
-    resolutionStrategy {
-        eachPlugin {
-//            if (requested.id.id == "com.browserstack.gradle-sdk") {
-//                useModule("com.browserstack:gradle-sdk:1.1.1")
-//            }
-            if (requested.id.id == "org.gauge") {
-                useModule("org.gauge:org.gauge.gradle.plugin:1.8.2")
-            }
-
-        }
-    }
+    // resolutionStrategy {
+    //     eachPlugin {
+    //         if (requested.id.id == "org.gauge") {
+    //             useModule("org.gauge:org.gauge.gradle.plugin:2.1.0")
+    //         }
+    //     }
+    // }
 }
 rootProject.name = 'Gradle_example'
 
