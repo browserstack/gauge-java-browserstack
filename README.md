@@ -15,10 +15,18 @@
 * Clone the repo
 * Install dependencies `mvn compile`
 * Update `env/default/default.properties` with your [BrowserStack Username and Access Key](https://www.browserstack.com/accounts/settings)
+* Update `gauge_jvm_args` with `-javaagent:<your-jar-path>` if running with gradle
 
-## Running the tests
+## Running the tests with maven
 * To run the sample specs, run `mvn test -P sample-test`
 * To run the sample local specs, run `mvn test -P sample-local-test`
+
+## Running the tests with gradle
+* To build gradle wrapper run `gradle wrapper`
+* To clean build gradle run `gradle clean build`
+* To run the sample specs, run `gradle runSingleSpec`
+* To run the sample local specs, run `gradle runLocalSpec`
+* Also can run through `gradle gauge -PspecsDir=sample-spces`
 
 ## Notes
 * You can view your test results on the [BrowserStack Automate dashboard](https://www.browserstack.com/automate)

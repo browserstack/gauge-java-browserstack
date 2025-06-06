@@ -18,8 +18,13 @@ hs_err_pid*
 
 .idea
 .gauge
-
+gradle/
 logs/
+log/
+bstack_build*/
+build/
+.gradle
+
 gauge_bin
 target/
 browserstack.err
