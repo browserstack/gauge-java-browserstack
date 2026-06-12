@@ -1,0 +1,68 @@
+# Runs the BrowserStack SDK sample against a given commit and reports a status check.
+# Trigger: Actions tab -> "Gauge (Java) SDK sample test" -> Run workflow -> paste the PR's full commit SHA.
+# Requires repo secrets: BROWSERSTACK_USERNAME, BROWSERSTACK_ACCESS_KEY.
+name: Gauge (Java) SDK sample test
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: 'The full commit id to build'
+        required: true
+
+jobs:
+  sdk-sample:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        os: [ubuntu-latest]
+        java: ['11', '17']
+    name: gauge-java JDK ${{ matrix.java }} sample
+    env:
+      BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+      BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.commit_sha }}
+      - name: Mark status check in_progress
+        uses: actions/github-script@v7
+        env:
+          job_name: gauge-java JDK ${{ matrix.java }} sample
+          commit_sha: ${{ github.event.inputs.commit_sha }}
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            await github.rest.checks.create({
+              owner: context.repo.owner, repo: context.repo.repo,
+              name: process.env.job_name, head_sha: process.env.commit_sha, status: 'in_progress'
+            }).catch(e => console.log('check create failed:', e.status));
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: ${{ matrix.java }}
+      - name: Install Gauge
+        run: |
+          npm install -g @getgauge/cli
+          gauge install java
+      - name: Run sample test
+        run: |
+          mvn compile
+          mvn test
+      - name: Mark status check completed
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          conclusion: ${{ job.status }}
+          job_name: gauge-java JDK ${{ matrix.java }} sample
+          commit_sha: ${{ github.event.inputs.commit_sha }}
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            await github.rest.checks.create({
+              owner: context.repo.owner, repo: context.repo.repo,
+              name: process.env.job_name, head_sha: process.env.commit_sha,
+              status: 'completed', conclusion: process.env.conclusion
+            }).catch(e => console.log('check create failed:', e.status));
