@@ -42,6 +42,12 @@
             <artifactId>gauge-java</artifactId>
             <version>0.9.1</version>
         </dependency>
+        <!-- BrowserStack SDK: instruments WebDriver via the -javaagent (see README-SDK.md). -->
+        <dependency>
+            <groupId>com.browserstack</groupId>
+            <artifactId>browserstack-java-sdk</artifactId>
+            <version>LATEST</version>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
