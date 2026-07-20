@@ -25,7 +25,7 @@ public class SearchSpec {
     @BeforeSuite
     public void beforeSuite() throws Exception {
         try {
-            if (!(System.getenv("LOCAL").isEmpty()) && System.getenv("LOCAL").equalsIgnoreCase("true")) {
+            if (System.getenv("LOCAL") != null && !(System.getenv("LOCAL").isEmpty()) && System.getenv("LOCAL").equalsIgnoreCase("true")) {
                 local = new Local();
                 Map<String, String> options = new HashMap<String, String>();
                 options.put("key", AUTOMATE_KEY);
@@ -41,7 +41,7 @@ public class SearchSpec {
             MutableCapabilities caps = new MutableCapabilities();
             HashMap<String, Object> browserstackOptions = new HashMap<String, Object>();
 
-            if (!(System.getenv("LOCAL").isEmpty()) && System.getenv("LOCAL").equalsIgnoreCase("true")) {
+            if (System.getenv("LOCAL") != null && !(System.getenv("LOCAL").isEmpty()) && System.getenv("LOCAL").equalsIgnoreCase("true")) {
                 if(local == null || !local.isRunning()){
                     local = new Local();
                     Map<String, String> options = new HashMap<String, String>();
@@ -105,7 +105,9 @@ public class SearchSpec {
 
     @AfterSpec
     public void tearDown() {
-        driver.quit();
+        if(driver != null) {
+            driver.quit();
+        }
     }
     @AfterSuite
     public void afterSuite() throws Exception {
